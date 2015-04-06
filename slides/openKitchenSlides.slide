@@ -1,0 +1,233 @@
+Exploring Go Channel 
+by build a P2P chat app
+15:04 7 Apr 2015
+Tags: channels, p2p, chat, example
+
+Timon Snetselaar
+Full Stack Developer, Xebia
+tsnetselaar@xebia.com
+http://xebia.com/
+@timonsn
+
+
+
+* Overview
+
+- Show a example implementation of a p2p chat application
+- Let you extend it in three exercises
+- Inbetween exercises explain the Go techniques used.
+
+
+
+* Prior Knowledge Of Go
+
+- Hello World
+- Simple Webserver
+- Marshalling (e.g. json, xml)
+- Used Go Routines 
+- Used Go Channel for Synchronization
+- Paying customer > €100K a year
+
+
+
+* Hélló World
+.play helloworld.go
+
+
+
+* Channels Basics
+.play channels.go /^func main/,/^}/
+
+
+
+* Select Basics
+.play select.go /^func main/,/^}/
+
+
+
+* P2P Chat
+
+
+
+* P2P Chat Archtecture
+
+Thee components:
+
+- HTTP client : for sending messages to other peers (in JSON)
+- HTTP server : listening for messages from other peers
+- Command-line : listening for user input  
+
+Connected by:
+
+- "The Heart" (P2P SYSTEM): Synchronising all actions 
+
+
+
+* Domain model
+.code ../p2p_1.go /^type ChatMsg/,/^}/
+.code ../p2p_1.go /^type Peer/,/^}/
+.code ../p2p_1.go /^type Peers/,/Peer/
+
+
+
+* Domain model (cont.)
+.code ../p2p_1.go /^type P2PSystem/,/^}/
+
+
+
+* P2PSystem init code
+.code ../p2p_1.go /^func NewP2PSystem/,/^}/
+
+
+
+* Select loop
+.code ../p2p_1.go /^func \(system \*P2PSystem\) selectLoop/,/^}/
+
+
+
+* Main
+.code ../p2p_1.go /^func main/,/^}/
+
+	go run p2p_1.go -n "My Name" -p 8000 -j 192.168.1.10:8000
+
+
+
+* Chat from std-in
+.code ../p2p_1.go /^func \(system \*P2PSystem\) startStdinListener/,/^}/
+
+
+
+* Before starting with exercises
+
+Start working in: 
+
+	p2p_1.go 
+
+If you can't think of a solution: ask someone else. If you both can't come up with a solution look in:
+
+	p2p_2.go 
+
+Etc.
+
+
+
+* Exercise 1: 
+
+Allow the user to send input chat messages.
+Send them via there own channel to the P2P system.
+
+
+Hints:
+
+- Add and initialize a new channel for message from the user
+- Extend the select loop in the "Heart" (P2P system)
+- Let the "Heart" (P2P system) print them.
+
+
+
+* Minimal debugging:
+
+.play debug.go /^func main/,/^}/
+
+
+
+* Register listener
+.code ../p2p_1.go /^func \(system \*P2PSystem\) startWebListener/,/^}/
+
+
+
+* Web listener for joining
+.code ../p2p_1.go /^func createJoinHandler/,/^}/
+
+	HTTP POST /join
+
+
+
+* Exercise 2: 
+
+Accept Chat messages from other peers in the HTTP SERVER 
+
+Let the P2PSystem print them.
+
+Hints:
+
+- Add and initialize channel 
+- Add web listener
+- Extend select loop
+
+
+
+* Send join
+.code ../p2p_1.go /^func \(system \*P2PSystem\) sendJoin/,/^}/
+
+
+
+* Exercise 3: 
+
+Send chat messages to all known peers
+
+Hints:
+
+- Extend http client component with a function, which sends chatMessage to an other Peer
+- Extend select loop written in exercise 1
+- Send the chat-messages to the second peer without waiting for the first one to return.
+
+
+
+* Lets try our p2p-chat-app
+
+Network:
+
+	Guest
+
+Password:
+
+	< Ask me... >
+
+Start with:
+
+	go run p2p_1.go -n "My Name" -p 8000 -j 192.168.1.10:8000
+
+* Bonus Slides
+
+
+
+* Improvements left as excercise to the listener
+
+The p2p-chat example program is intentionally left minimal for learning purposes. A mature application should at least add / improve:
+
+- Package structure
+- Unit Tests
+- Better error-handling
+- User interface
+
+
+
+* But I don't want to sync using Channels
+
+use:
+
+.link http://golang.org/pkg/sync/atomic/ atomic
+
+.link http://golang.org/pkg/sync/ sync
+
+
+
+* Present Golang
+
+This presentation is made using:
+
+.link http://golang.org/x/tools/present Present
+.code openKitchenSlides.slide /^\* Hélló World/,/^\* Present Golang/
+
+
+
+* Attribution
+
+These slides use work from:
+
+
+.link https://github.com/mmcgrana/gobyexample gobyexample
+
+  This work is copyright Mark McGranaghan and licensed under a Creative Commons Attribution 3.0 Unported License.
+
