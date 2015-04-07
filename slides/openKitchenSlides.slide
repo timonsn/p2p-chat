@@ -1,4 +1,4 @@
-Exploring Go Channel 
+Build your own concurrent application with channels and go–routines
 by build a P2P chat app
 15:04 7 Apr 2015
 Tags: channels, p2p, chat, example
@@ -13,9 +13,9 @@ http://xebia.com/
 
 * Overview
 
-- Show a example implementation of a p2p chat application
-- Let you extend it in three exercises
-- In between exercises explain the Go techniques used.
+- Show a example implementation of a p2p chat application (missing some pieces)
+- Let you extend it in three exercises 
+- In between exercises explain the Go techniques used
 
 
 
@@ -23,7 +23,7 @@ http://xebia.com/
 
 - Hello World
 - Simple Webserver
-- Marshaling (e.g. json, xml)
+- Marshalling (e.g. json, xml)
 - Used Go Routines 
 - Used Go Channel for Synchronization
 - Paying customer > €100K a year
@@ -97,6 +97,28 @@ Connected by:
 
 
 
+* Xebia Wifi
+
+Network:
+
+	Guest
+
+Password:
+
+	< Ask me... >
+
+
+* p2p-chat Repository
+
+Download code from:
+
+	https://github.com/timonsn/p2p-chat
+
+Download zip or use 
+
+	git clone https://github.com/timonsn/p2p-chat.git
+
+
 * Before starting with exercises
 
 Start working in: 
@@ -108,6 +130,11 @@ If you can't think of a solution: ask someone else. If you both can't come up wi
 	p2p_2.go 
 
 Etc.
+
+Start with:
+
+	go run p2p_1.go -n "My Name" -p 8000 -j 10.0.0.216:8000
+
 
 
 
@@ -170,23 +197,15 @@ Hints:
 
 - Extend the http-client-component with a function, which sends chatMessage to an other Peer
 - Extend select loop written in exercise 1
-- Send the chat-messages to the second peer without waiting for the first one to return.
+- Send the chat-messages to all known peers without blocking
 
 
 
 * Lets try our p2p-chat-app
 
-Network:
-
-	Guest
-
-Password:
-
-	< Ask me... >
-
 Start with:
 
-	go run p2p_1.go -n "My Name" -p 8000 -j 192.168.1.10:8000
+	go run p2p_final.go -n "My Name" -p 8000 -j 10.0.0.216:8000
 
 * Bonus Slides
 
