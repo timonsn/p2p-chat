@@ -15,7 +15,7 @@ http://xebia.com/
 
 - Show a example implementation of a p2p chat application
 - Let you extend it in three exercises
-- Inbetween exercises explain the Go techniques used.
+- In between exercises explain the Go techniques used.
 
 
 
@@ -23,7 +23,7 @@ http://xebia.com/
 
 - Hello World
 - Simple Webserver
-- Marshalling (e.g. json, xml)
+- Marshaling (e.g. json, xml)
 - Used Go Routines 
 - Used Go Channel for Synchronization
 - Paying customer > €100K a year
@@ -49,7 +49,7 @@ http://xebia.com/
 
 
 
-* P2P Chat Archtecture
+* P2P Chat Architecture
 
 Thee components:
 
@@ -59,7 +59,7 @@ Thee components:
 
 Connected by:
 
-- "The Heart" (P2P SYSTEM): Synchronising all actions 
+- "The Heart" (P2P SYSTEM): Synchronizing all actions 
 
 
 
@@ -168,7 +168,7 @@ Send chat messages to all known peers
 
 Hints:
 
-- Extend http client component with a function, which sends chatMessage to an other Peer
+- Extend the http-client-component with a function, which sends chatMessage to an other Peer
 - Extend select loop written in exercise 1
 - Send the chat-messages to the second peer without waiting for the first one to return.
 
@@ -192,7 +192,7 @@ Start with:
 
 
 
-* Improvements left as excercise to the listener
+* Improvements left as exercise to the listener
 
 The p2p-chat example program is intentionally left minimal for learning purposes. A mature application should at least add / improve:
 
