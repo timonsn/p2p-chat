@@ -14,18 +14,22 @@ import (
 
 // DOMAIN MODEL
 
+// ChatMsg represents a message
 type ChatMsg struct {
 	Message string
 	From    Peer
 }
 
+// Peer represents a other chat user and machine
 type Peer struct {
 	Name    string
 	Address string
 }
 
+// Peers is the map of Peers with a address as key
 type Peers map[string]Peer
 
+// P2PSystem contains the complete p2p system
 type P2PSystem struct {
 	Self            Peer
 	Peers           Peers
@@ -67,6 +71,7 @@ func getLocalIpv4() string {
 
 // HEART: P2P SYSTEM
 
+// NewP2PSystem initializes a new P2PSystem and return a *P2PSystem
 func NewP2PSystem(self Peer) *P2PSystem {
 	system := new(P2PSystem)
 	system.Self = self
@@ -125,11 +130,11 @@ func (system *P2PSystem) knownPeer(peer Peer) bool {
 // HTTP CLIENT : SENDING TO OTHER PEERS
 
 func (system *P2PSystem) sendJoin(peer Peer) {
-	finalUrl := "http://" + peer.Address + "/join"
+	URL := "http://" + peer.Address + "/join"
 
 	qs, _ := json.Marshal(system.Self)
 
-	resp, err := http.Post(finalUrl, "application/json", bytes.NewBuffer(qs))
+	resp, err := http.Post(URL, "application/json", bytes.NewBuffer(qs))
 	if err != nil {
 		system.peerLeft <- peer
 		return
@@ -147,11 +152,11 @@ func (system *P2PSystem) sendJoin(peer Peer) {
 }
 
 func (system *P2PSystem) sendChat(peer Peer, msg ChatMsg) {
-	finalUrl := "http://" + peer.Address + "/chat"
+	URL := "http://" + peer.Address + "/chat"
 
 	qs, _ := json.Marshal(msg)
 
-	_, err := http.Post(finalUrl, "application/json", bytes.NewBuffer(qs))
+	_, err := http.Post(URL, "application/json", bytes.NewBuffer(qs))
 	if err != nil {
 		system.peerLeft <- peer
 		return
